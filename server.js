@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const path = require("path");
 const routes = require('./routes');
 
 const app = express();
@@ -18,7 +19,8 @@ app.use(routes);
 mongoose.Promise = global.Promise;
 // Connect to the Mongo DB
 mongoose.connect(
-  process.env.MONGODB_URI || 'mongodb://localhost/nytreact',
+  // process.env.MONGODB_URI ||
+  'mongodb://localhost/nytreact',
   {
     useMongoClient: true
   }
