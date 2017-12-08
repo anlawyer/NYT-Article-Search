@@ -3,11 +3,15 @@ import API from "./utils/API";
 
 class App extends Component {
 
+  state = {
+    url: ''
+  }
+
   handleFormSubmit = event => {
     event.preventDefault();
     console.log('clicked');
     API.callNYT('puppies')
-    .then(res => console.log(res))
+    .then(res => this.setState({url: res.data}))
     .catch(err => console.log(err));
   };
 
@@ -16,7 +20,7 @@ class App extends Component {
       <div>
         <button onClick={this.handleFormSubmit}>click</button>
         <div>
-          <p>Hello</p>
+          <p>url: {this.state.url}</p>
         </div>
       </div>
     );
