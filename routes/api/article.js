@@ -2,9 +2,9 @@ const axios = require('axios');
 const router = require('express').Router();
 // const articlesController = require('../../controllers/articlesController');
 
-var authKey = 'cb420c56e5254a31b30b0392e175d867';
+const authKey = 'cb420c56e5254a31b30b0392e175d867';
 
-var queryURLBase = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=' +
+const queryURLBase = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=' +
   authKey + '&q=';
 
 router.get('/call', (req, res) => {
@@ -18,7 +18,7 @@ router.get('/call', (req, res) => {
 // Matches with '/api/books'
 // router.route('/')
 //   .get(articlesController.findAll);
-  // .post(articlesController.create);
+//   .post(articlesController.create);
 
 // Matches with '/api/books/:id'
 // router

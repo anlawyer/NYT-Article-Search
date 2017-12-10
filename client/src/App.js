@@ -1,30 +1,20 @@
-import React, { Component } from 'react';
-import API from "./utils/API";
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Saved from "./pages/Saved";
+import Search from "./pages/Search";
+import NoMatch from "./pages/NoMatch";
+import Nav from "./components/Nav";
 
-class App extends Component {
-
-  state = {
-    url: ''
-  }
-
-  handleFormSubmit = event => {
-    event.preventDefault();
-    console.log('clicked');
-    API.callNYT('puppies')
-    .then(res => this.setState({url: res.data}))
-    .catch(err => console.log(err));
-  };
-
-  render () {
-    return (
-      <div>
-        <button onClick={this.handleFormSubmit}>click</button>
-        <div>
-          <p>url: {this.state.url}</p>
-        </div>
-      </div>
-    );
-  }
-}
+const App = () =>
+  <Router>
+    <div>
+      <Nav />
+      <Switch>
+        <Route exact path="/" component={Search} />
+        <Route exact path="/saved" component={Saved} />
+        <Route component={NoMatch} />
+      </Switch>
+    </div>
+  </Router>;
 
 export default App;

@@ -13,11 +13,6 @@ var ArticleSchema = new Schema({
   },
   articleDate: {
     type: Date
-  },
-  saved: {
-    type: Boolean,
-    required: true,
-    default: false
   }
 });
 
