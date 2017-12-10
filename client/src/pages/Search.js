@@ -77,7 +77,14 @@ class Search extends Component {
             <Col size='sm-12'>
               <br />
                 <h3 className="panel-title"><strong><i className="fa fa-table"></i>   Top Articles</strong></h3>
-
+                <List>
+                  {this.state.results.map(article => (
+                    <ListItem key={article._id}>
+                      <a />
+                      <DeleteBtn onClick={() => this.saveArticle(article._id)} />
+                    </ListItem>
+                  ))}
+                </List>
             </Col>
           </Row>
         </Container>

@@ -15,16 +15,4 @@ router.get('/call', (req, res) => {
     .catch(err => console.log('catch err:', err));
 });
 
-// Matches with '/api/books'
-// router.route('/')
-//   .get(articlesController.findAll);
-//   .post(articlesController.create);
-
-// Matches with '/api/books/:id'
-// router
-//   .route('/:id')
-//   .get(booksController.findById)
-//   .put(booksController.update)
-//   .delete(booksController.remove);
-
 module.exports = router;

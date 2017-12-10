@@ -4,11 +4,11 @@ export default {
   callNYT: function (query) {
     console.log('query', query);
     return axios.get('/api/article/call', { params: { q: query } });
+  },
+
+  getSaved: function () {
+    return axios.get('/api/saved/');
   }
-  // Gets all books
-  // getArticles: function () {
-  //   return axios.get('/api/articles');
-  // },
   // Gets the book with the given id
   // getBook: function(id) {
   //   return axios.get('/api/books/' + id);

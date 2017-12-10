@@ -5,30 +5,34 @@ import API from "../utils/API";
 import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
-import { Input, TextArea, FormBtn } from "../components/Form";
 
 class Search extends Component {
 
   state = {
-    searchTerm: '',
-    startDate: '',
-    endDate: '',
-    results: []
+    saved: []
+  }
+
+  componentDidMount() {
+    this.loadArticles();
+  }
+
+  loadArticles = () => {
+    API.getSaved()
+      .then(res => this.setState({ saved: res.data }))
+      .catch(err => console.log(err));
   }
 
   handleFormSubmit = event => {
     event.preventDefault();
-    console.log('clicked');
     API.callNYT(this.state.searchTerm)
     .then(res => this.setState({results: res.data}))
     .catch(err => console.log(err));
   };
 
-  handleInputChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
+  deleteArticle = id => {
+    API.deleteArticle(id)
+      .then(res => this.loadArticles())
+      .catch(err => console.log(err));
   };
 
   render () {
@@ -36,48 +40,19 @@ class Search extends Component {
       <div>
         <Container>
           <Jumbotron>
-            <h1 className="text-center"><strong><i className="fa fa-newspaper-o"></i> New York Times Search</strong></h1>
+            <h1 className="text-center"><strong><i className="fa fa-newspaper-o"></i> Saved NYT Articles</strong></h1>
           </Jumbotron>
           <Row>
             <Col size="sm-12">
               <br />
-              <h3 className="panel-title"><strong><i className="fa  fa-list-alt"></i>   Search Parameters</strong></h3>
-              <form>
-                <Input
-                  value={this.state.searchTerm}
-                  onChange={this.handleInputChange}
-                  name="searchTerm"
-                  placeholder="Search Term (required)"
-                />
-
-                <Input
-                  value={this.state.startYear}
-                  onChange={this.handleInputChange}
-                  name="startYear"
-                  placeholder="Start Year (optional)"
-                />
-
-                <Input
-                  value={this.state.endYear}
-                  onChange={this.handleInputChange}
-                  name="endYear"
-                  placeholder="End Year (optional)"
-                />
-
-                <FormBtn
-                  disabled={!(this.state.searchTerm)}
-                  onClick={this.handleFormSubmit}
-                >
-                  Submit
-                </FormBtn>
-              </form>
-            </Col>
-          </Row>
-          <Row>
-            <Col size='sm-12'>
-              <br />
-                <h3 className="panel-title"><strong><i className="fa fa-table"></i>   Top Articles</strong></h3>
-
+              <List>
+                {this.state.saved.map(article => (
+                  <ListItem key={article._id}>
+                    <a />
+                    <DeleteBtn onClick={() => this.deleteArticle(article._id)} />
+                  </ListItem>
+                ))}
+              </List>
             </Col>
           </Row>
         </Container>
