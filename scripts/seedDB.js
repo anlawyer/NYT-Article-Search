@@ -12,6 +12,16 @@ mongoose.connect(
 );
 
 const articleSeed = [
+  {
+    title: "one",
+    url: "url1",
+    date: new Date(Date.now())
+  },
+  {
+    title: "two",
+    url: "url2",
+    date: new Date(Date.now())
+  },
 ];
 
 db.Article

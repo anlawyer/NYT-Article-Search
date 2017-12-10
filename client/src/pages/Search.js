@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import DeleteBtn from "../components/DeleteBtn";
+import {SaveBtn} from "../components/Buttons";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
-import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
-import { Input, TextArea, FormBtn } from "../components/Form";
+import { Input, FormBtn } from "../components/Form";
 
 class Search extends Component {
 
@@ -13,14 +12,16 @@ class Search extends Component {
     searchTerm: '',
     startDate: '',
     endDate: '',
-    results: []
+    results: [],
+    toSave: {}
   }
 
   handleFormSubmit = event => {
     event.preventDefault();
-    console.log('clicked');
+
     API.callNYT(this.state.searchTerm)
-    .then(res => this.setState({results: res.data}))
+    .then(res => console.log(res))
+    .then(res => this.setState({ results: res.data }))
     .catch(err => console.log(err));
   };
 
@@ -30,6 +31,18 @@ class Search extends Component {
       [name]: value
     });
   };
+
+  saveArticle = event => {
+    const newArticle = {
+      title: event.target.title,
+      url: event.target.url
+    };
+    this.setState({toSave: newArticle});
+
+    API.saveArticle(this.state.toSave)
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
+  }
 
   render () {
     return (
@@ -80,8 +93,8 @@ class Search extends Component {
                 <List>
                   {this.state.results.map(article => (
                     <ListItem key={article._id}>
-                      <a />
-                      <DeleteBtn onClick={() => this.saveArticle(article._id)} />
+                      <a href={article.web_url}>{article.headline.main}</a>
+                      <SaveBtn onClick={() => this.saveArticle(article._id)} />
                     </ListItem>
                   ))}
                 </List>

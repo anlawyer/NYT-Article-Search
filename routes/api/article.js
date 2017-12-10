@@ -1,6 +1,5 @@
 const axios = require('axios');
 const router = require('express').Router();
-// const articlesController = require('../../controllers/articlesController');
 
 const authKey = 'cb420c56e5254a31b30b0392e175d867';
 
@@ -8,11 +7,12 @@ const queryURLBase = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?a
   authKey + '&q=';
 
 router.get('/call', (req, res) => {
-  console.log('request:', req.query.q);
+  console.log('request query:', req.query.q);
   axios
     .get(queryURLBase + req.query.q)
-    .then(results => res.json(results.data.response.docs[0].web_url))
-    .catch(err => console.log('catch err:', err));
+    .then(({ data: { results } }) => console.log(results.data.response.docs))
+    .then(({ data: { results } }) => res.json(results.data.response.docs))
+    .catch(err => console.log(res.json(err)));
 });
 
 module.exports = router;

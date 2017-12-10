@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import DeleteBtn from "../components/DeleteBtn";
+import {DeleteBtn} from "../components/Buttons";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
-import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 
@@ -18,19 +17,14 @@ class Search extends Component {
 
   loadArticles = () => {
     API.getSaved()
+      .then(res => console.log('loadArticles res:', res))
       .then(res => this.setState({ saved: res.data }))
       .catch(err => console.log(err));
   }
 
-  handleFormSubmit = event => {
-    event.preventDefault();
-    API.callNYT(this.state.searchTerm)
-    .then(res => this.setState({results: res.data}))
-    .catch(err => console.log(err));
-  };
-
   deleteArticle = id => {
     API.deleteArticle(id)
+      .then(res => console.log('deleteArticles res:', res))
       .then(res => this.loadArticles())
       .catch(err => console.log(err));
   };
@@ -48,7 +42,7 @@ class Search extends Component {
               <List>
                 {this.state.saved.map(article => (
                   <ListItem key={article._id}>
-                    <a />
+                    <a href={article.url}>{article.title}</a>
                     <DeleteBtn onClick={() => this.deleteArticle(article._id)} />
                   </ListItem>
                 ))}
