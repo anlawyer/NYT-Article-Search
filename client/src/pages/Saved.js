@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {DeleteBtn} from "../components/Buttons";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
+import Nav from '../components/Nav';
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 
@@ -17,14 +18,12 @@ class Search extends Component {
 
   loadArticles = () => {
     API.getSaved()
-      .then(res => console.log('loadArticles res:', res))
       .then(res => this.setState({ saved: res.data }))
       .catch(err => console.log(err));
   }
 
   deleteArticle = id => {
     API.deleteArticle(id)
-      .then(res => console.log('deleteArticles res:', res))
       .then(res => this.loadArticles())
       .catch(err => console.log(err));
   };
@@ -37,7 +36,12 @@ class Search extends Component {
             <h1 className="text-center"><strong><i className="fa fa-newspaper-o"></i> Saved NYT Articles</strong></h1>
           </Jumbotron>
           <Row>
-            <Col size="sm-12">
+            <Col size="md-12">
+              <Nav />
+            </Col>
+          </Row>
+          <Row>
+            <Col size="md-12">
               <br />
               <List>
                 {this.state.saved.map(article => (

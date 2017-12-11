@@ -12,7 +12,8 @@ var ArticleSchema = new Schema({
     required: true
   },
   articleDate: {
-    type: Date
+    type: Date,
+    default: Date.now()
   }
 });
 

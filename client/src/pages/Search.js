@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {SaveBtn} from "../components/Buttons";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
+import Nav from '../components/Nav';
 import { Col, Row, Container } from "../components/Grid";
 import { List, ListItem } from "../components/List";
 import { Input, FormBtn } from "../components/Form";
@@ -12,15 +13,12 @@ class Search extends Component {
     searchTerm: '',
     startDate: '',
     endDate: '',
-    results: [],
-    toSave: {}
+    results: []
   }
 
   handleFormSubmit = event => {
     event.preventDefault();
-
     API.callNYT(this.state.searchTerm)
-    .then(res => console.log(res))
     .then(res => this.setState({ results: res.data }))
     .catch(err => console.log(err));
   };
@@ -32,15 +30,9 @@ class Search extends Component {
     });
   };
 
-  saveArticle = event => {
-    const newArticle = {
-      title: event.target.title,
-      url: event.target.url
-    };
-    this.setState({toSave: newArticle});
-
-    API.saveArticle(this.state.toSave)
-    .then(res => console.log(res))
+  saveArticle = article => {
+    API.saveArticle({title: article.headline.main, url: article.web_url})
+    .then(alert('Article saved!'))
     .catch(err => console.log(err));
   }
 
@@ -52,9 +44,14 @@ class Search extends Component {
             <h1 className="text-center"><strong><i className="fa fa-newspaper-o"></i> New York Times Search</strong></h1>
           </Jumbotron>
           <Row>
-            <Col size="sm-12">
+            <Col size="md-12">
+              <Nav />
+            </Col>
+          </Row>
+          <Row>
+            <Col size="md-12">
               <br />
-              <h3 className="panel-title"><strong><i className="fa  fa-list-alt"></i>   Search Parameters</strong></h3>
+              <h3 className="panel-title"><strong><i className="fa fa-list-alt"></i>   Search Parameters</strong></h3>
               <form>
                 <Input
                   value={this.state.searchTerm}
@@ -64,17 +61,17 @@ class Search extends Component {
                 />
 
                 <Input
-                  value={this.state.startYear}
+                  value={this.state.startDate}
                   onChange={this.handleInputChange}
-                  name="startYear"
-                  placeholder="Start Year (optional)"
+                  name="startDate"
+                  placeholder="Start Date [YYYYMMDD] (optional)"
                 />
 
                 <Input
-                  value={this.state.endYear}
+                  value={this.state.endDate}
                   onChange={this.handleInputChange}
-                  name="endYear"
-                  placeholder="End Year (optional)"
+                  name="endDate"
+                  placeholder="End Year [YYYYMMDD] (optional)"
                 />
 
                 <FormBtn
@@ -87,14 +84,14 @@ class Search extends Component {
             </Col>
           </Row>
           <Row>
-            <Col size='sm-12'>
+            <Col size='md-12'>
               <br />
                 <h3 className="panel-title"><strong><i className="fa fa-table"></i>   Top Articles</strong></h3>
                 <List>
                   {this.state.results.map(article => (
                     <ListItem key={article._id}>
                       <a href={article.web_url}>{article.headline.main}</a>
-                      <SaveBtn onClick={() => this.saveArticle(article._id)} />
+                      <SaveBtn onClick={() => this.saveArticle(article)} />
                     </ListItem>
                   ))}
                 </List>

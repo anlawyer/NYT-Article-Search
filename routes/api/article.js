@@ -7,11 +7,9 @@ const queryURLBase = 'https://api.nytimes.com/svc/search/v2/articlesearch.json?a
   authKey + '&q=';
 
 router.get('/call', (req, res) => {
-  console.log('request query:', req.query.q);
   axios
     .get(queryURLBase + req.query.q)
-    .then(({ data: { results } }) => console.log(results.data.response.docs))
-    .then(({ data: { results } }) => res.json(results.data.response.docs))
+    .then(results => res.json(results.data.response.docs))
     .catch(err => console.log(res.json(err)));
 });
 
