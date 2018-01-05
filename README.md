@@ -1,4 +1,4 @@
-# NYT Article Scraper - react
+# NYT Article Search - React
 
 This is an application that scrapes articles from the New York Times website and allows users to save them. It is built with React.js, a Node/Express server, and uses MongoDB to store the saved articles.
 
